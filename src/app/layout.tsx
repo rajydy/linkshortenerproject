@@ -1,6 +1,8 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
+import { themeStorageKey } from "@/lib/theme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,24 +25,34 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider
           appearance={{
             variables: {
-              colorBackground: "oklch(0.205 0 0)",
-              colorForeground: "oklch(0.985 0 0)",
-              colorMutedForeground: "oklch(0.708 0 0)",
-              colorPrimary: "oklch(0.75 0.15 250)",
-              colorInput: "oklch(0.145 0 0)",
-              colorInputForeground: "oklch(0.985 0 0)",
+              colorBackground: "var(--popover)",
+              colorForeground: "var(--popover-foreground)",
+              colorMutedForeground: "var(--muted-foreground)",
+              colorPrimary: "var(--primary)",
+              colorInput: "var(--background)",
+              colorInputForeground: "var(--foreground)",
               fontFamily: "var(--font-geist-sans)",
             },
           }}
         >
           {children}
         </ClerkProvider>
+        <Script id="theme-preference" strategy="beforeInteractive">
+          {`try {
+  if (window.localStorage.getItem("${themeStorageKey}") === "light") {
+    document.documentElement.classList.remove("dark");
+  }
+} catch (error) {
+  console.error("Unable to read the theme preference.", error);
+}`}
+        </Script>
       </body>
     </html>
   );

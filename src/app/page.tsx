@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { ArrowDownRight, ArrowRight, Link2, LockKeyhole, Sparkles } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -57,24 +58,33 @@ export default function Home() {
           <span>linkshortener</span>
         </a>
 
-        <nav aria-label="Main navigation" className="flex items-center gap-2 sm:gap-3">
+        <nav
+          aria-label="Main navigation"
+          className="flex items-center gap-1.5 sm:gap-3"
+        >
           <a
             href="#features"
             className="hidden rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
           >
             Features
           </a>
+          <ThemeToggle />
           <Suspense>
             <Show when="signed-out">
               <div className="flex items-center gap-2">
-                <SignInButton mode="modal">
-                  <Button variant="ghost" className="px-3">
-                    Sign in
-                  </Button>
-                </SignInButton>
+                <span className="hidden sm:inline-flex">
+                  <SignInButton mode="modal">
+                    <Button variant="ghost" className="px-3">
+                      Sign in
+                    </Button>
+                  </SignInButton>
+                </span>
                 <SignUpButton mode="modal">
-                  <Button className="bg-lime-300 px-4 text-slate-950 hover:bg-lime-200">
-                    Get started
+                  <Button
+                    aria-label="Get started"
+                    className="size-9 bg-lime-300 p-0 text-slate-950 hover:bg-lime-200 sm:h-9 sm:w-auto sm:px-4"
+                  >
+                    <span className="sr-only sm:not-sr-only">Get started</span>
                     <ArrowRight aria-hidden="true" />
                   </Button>
                 </SignUpButton>
@@ -90,7 +100,7 @@ export default function Home() {
           className="grid flex-1 items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-28"
         >
           <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-lime-300/20 bg-lime-300/[0.07] px-3.5 py-1.5 text-xs font-medium text-lime-200">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-lime-300/20 bg-lime-300/[0.07] px-3.5 py-1.5 text-xs font-medium text-lime-700 dark:text-lime-200">
               <span className="size-1.5 rounded-full bg-lime-300" />
               A fresh start for your links
             </div>
@@ -99,7 +109,9 @@ export default function Home() {
               className="text-balance text-5xl font-semibold leading-[1.06] tracking-[-0.055em] text-foreground sm:text-6xl lg:text-7xl"
             >
               Make your links
-              <span className="block text-lime-300">go further.</span>
+              <span className="block text-lime-700 dark:text-lime-300">
+                go further.
+              </span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8 lg:mx-0">
               A cleaner starting point for your URL shortener. Create an
@@ -161,7 +173,7 @@ export default function Home() {
           className="scroll-mt-8 border-t border-border/70 py-16 sm:py-20"
         >
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-semibold tracking-wide text-lime-300">
+            <p className="text-sm font-semibold tracking-wide text-lime-700 dark:text-lime-300">
               THE RIGHT KIND OF SIMPLE
             </p>
             <h2
@@ -182,7 +194,7 @@ export default function Home() {
                 className="h-full border-border/70 bg-card/70 p-1 transition-colors hover:border-lime-300/30"
               >
                 <CardHeader className="gap-4 p-5 sm:p-6">
-                  <span className="grid size-11 place-items-center rounded-xl border border-lime-300/15 bg-lime-300/[0.07] text-lime-200">
+                  <span className="grid size-11 place-items-center rounded-xl border border-lime-300/15 bg-lime-300/[0.07] text-lime-700 dark:text-lime-200">
                     <Icon aria-hidden="true" className="size-5" />
                   </span>
                   <h3 className="text-lg font-semibold tracking-tight text-foreground">
