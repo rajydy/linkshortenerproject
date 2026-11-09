@@ -1,7 +1,16 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
-export default async function DashboardPage() {
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<p role="status">Loading dashboard...</p>}>
+      <AuthenticatedDashboard />
+    </Suspense>
+  );
+}
+
+async function AuthenticatedDashboard() {
   const { userId } = await auth();
 
   if (!userId) {
