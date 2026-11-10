@@ -2,6 +2,8 @@ import { SignOutButton } from "@clerk/nextjs";
 import { ArrowLeft, Link2 } from "lucide-react";
 import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
+import { CreateLinkDialog } from "@/components/create-link-dialog";
+import { LinkItemActions } from "@/components/link-item-actions";
 import {
   Card,
   CardContent,
@@ -57,9 +59,12 @@ async function AuthenticatedDashboard() {
               View the shortened links you have created.
             </p>
           </div>
-          <p className="text-sm text-muted-foreground" aria-live="polite">
-            {links.length} {links.length === 1 ? "link" : "links"}
-          </p>
+          <div className="flex flex-col gap-4 sm:items-end">
+            <p className="text-sm text-muted-foreground" aria-live="polite">
+              {links.length} {links.length === 1 ? "link" : "links"}
+            </p>
+            <CreateLinkDialog />
+          </div>
         </div>
 
         <Card>
@@ -82,33 +87,44 @@ async function AuthenticatedDashboard() {
                 {links.map((link) => (
                   <li
                     key={link.shortCode}
-                    className="flex flex-col gap-3 py-5 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
+                    className="flex flex-col gap-3 py-5 first:pt-0 last:pb-0"
                   >
-                    <div className="min-w-0">
-                      <p className="font-mono text-sm font-semibold text-foreground">
-                        /{link.shortCode}
-                      </p>
-                      <a
-                        className="mt-1 block break-all text-sm text-muted-foreground underline-offset-4 hover:underline"
-                        href={link.url}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {link.url}
-                      </a>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                      <div className="min-w-0">
+                        <a
+                          className="font-mono text-sm font-semibold text-foreground underline-offset-4 hover:underline"
+                          href={`/l/${encodeURIComponent(link.shortCode)}`}
+                        >
+                          /l/{link.shortCode}
+                        </a>
+                        <a
+                          className="mt-1 block break-all text-sm text-muted-foreground underline-offset-4 hover:underline"
+                          href={link.url}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {link.url}
+                        </a>
+                      </div>
+                      <div className="flex shrink-0 items-center justify-between gap-4 sm:justify-end">
+                        <time
+                          className="text-xs text-muted-foreground"
+                          dateTime={link.createdAt.toISOString()}
+                        >
+                          Created{" "}
+                          {new Intl.DateTimeFormat(undefined, {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                            timeZone: "UTC",
+                          }).format(link.createdAt)}{" "}
+                          UTC
+                        </time>
+                        <LinkItemActions
+                          shortCode={link.shortCode}
+                          url={link.url}
+                        />
+                      </div>
                     </div>
-                    <time
-                      className="shrink-0 text-xs text-muted-foreground"
-                      dateTime={link.createdAt.toISOString()}
-                    >
-                      Created{" "}
-                      {new Intl.DateTimeFormat(undefined, {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                        timeZone: "UTC",
-                      }).format(link.createdAt)}{" "}
-                      UTC
-                    </time>
                   </li>
                 ))}
               </ul>
