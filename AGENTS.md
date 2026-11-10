@@ -17,6 +17,8 @@ These rules apply to all work in this project:
 - Keep changes focused, typed, and consistent with nearby code. Do not introduce a dependency or architectural pattern when the existing stack already provides a suitable solution.
 - Do not assume the link-shortening product flow is implemented; inspect the current code and build on actual behavior rather than inferring it from the project name.
 - Run the relevant checks from [`docs/agent-testing.md`](./docs/agent-testing.md) and report any checks that could not be run.
+- Use `feature/github-copilot-learning` for GitHub Copilot experiments; never make changes directly on `main`.
+- After completing work, summarize the modified files and suggest a commit message.
 
 ### Topic Guides
 
