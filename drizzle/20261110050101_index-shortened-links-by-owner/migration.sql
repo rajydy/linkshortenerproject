@@ -1,0 +1,1 @@
+CREATE INDEX "shortened_links_clerk_user_id_created_at_idx" ON "shortened_links" ("clerk_user_id","created_at");
